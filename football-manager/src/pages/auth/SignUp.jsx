@@ -27,7 +27,27 @@ const SignUp = () => {
             }
 
             const signUpResult = await signUp({ username, email, password });
-            console.log("sign up result", signUpResult);
+
+            const userSub = signUpResult.userSub;
+
+            const newUser = {
+                user_uuid: userSub,
+                fullname: null,
+                email,
+            };
+
+            const response = await fetch("https://gmwdmyyeri.execute-api.ca-central-1.amazonaws.com/default/user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newUser),
+            });
+
+
+            const data = await response.json();
+            console.log("user created successfully:", data);
+
             navigate("/confirm-email");
 
         } catch (error) {
@@ -41,7 +61,7 @@ const SignUp = () => {
             <h4 className="block text-3xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
                 Sign Up
             </h4>
-            <p className="mt-2 p-1 block text-center text-lg font-normal leading-relaxed text-gray-700 antialiased">
+            <p className="mt-2 p-3 block text-center text-lg font-normal leading-relaxed text-gray-700 antialiased">
                 Enter your details to register. Explore leagues, teams, players, and create your own team be a coach!
             </p>
             <form className="mt-8 mb-2 w-80 max-w-screen-2xl sm:w-96" onSubmit={submitHandler}>

@@ -13,6 +13,7 @@ import ConfirmEmail from "./pages/auth/ConfirmEmail";
 import SignIn from "./pages/auth/SignIn";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
+import Profile from "./pages/Profile";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -39,6 +40,9 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+
+        {/* Profile Routes */}
+        <Route path="/profile" element={isAuthenticated ? <Profile /> : <SignIn />} />
       </Routes>
     </div>
   );
