@@ -13,7 +13,10 @@ import ConfirmEmail from "./pages/auth/ConfirmEmail";
 import SignIn from "./pages/auth/SignIn";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile";
+import CreateTeam from "./pages/team/CreateTeam";
+import LockerRoom from "./pages/team/LockerRoom";
+import GetTeamInfo from "./pages/team/GetTeamInfo";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -43,6 +46,11 @@ function App() {
 
         {/* Profile Routes */}
         <Route path="/profile" element={isAuthenticated ? <Profile /> : <SignIn />} />
+
+        {/* Team Routes */}
+        <Route path="/create-team" element={isAuthenticated ? <CreateTeam /> : <SignIn />} />
+        <Route path="/locker-room" element={isAuthenticated ? <LockerRoom /> : <SignIn />} />
+        <Route path="/team/:id" element={isAuthenticated ? <GetTeamInfo /> : <SignIn />} />
       </Routes>
     </div>
   );

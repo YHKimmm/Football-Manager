@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAccessToken } from "../utilities/cognito";
+import { getAccessToken } from "../../utilities/cognito";
 
 const UpdateProfile = ({ user, handleUpdateUser }) => {
     const [fullname, setFullname] = useState(user.fullname || "");
@@ -76,8 +76,8 @@ const UpdateProfile = ({ user, handleUpdateUser }) => {
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    <div className="min-w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline" type="submit">
                             Update Profile
                         </button>
                     </div>

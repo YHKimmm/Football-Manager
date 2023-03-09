@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAccessToken } from "../utilities/cognito";
+import { getAccessToken } from "../../utilities/cognito";
 import UpdateProfile from "./UpdateProfile";
 
 const Profile = () => {

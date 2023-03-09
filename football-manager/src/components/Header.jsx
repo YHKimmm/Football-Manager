@@ -6,7 +6,7 @@ import {
     Button,
     IconButton,
 } from "@material-tailwind/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import * as cognito from "../utilities/cognito";
 import { useDispatch } from "react-redux";
@@ -18,6 +18,7 @@ export default function Header() {
     const [openNav, setOpenNav] = useState(false);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const currentUserName = cognito.currentUser()?.username;
 
@@ -31,6 +32,15 @@ export default function Header() {
     const signOutHandler = () => {
         cognito.signOut();
         dispatch(logout());
+        setOpenNav(false);
+    };
+
+    const clickHandler = () => {
+        if (isAuthenticated) {
+            navigate("/create-team");
+        } else {
+            navigate("/sign-in");
+        }
         setOpenNav(false);
     };
 
@@ -62,8 +72,8 @@ export default function Header() {
                 color="blue-gray"
                 className="p-1 font-normal"
             >
-                <NavLink to="/league" className="flex items-center" onClick={() => setOpenNav(false)}>
-                    League
+                <NavLink to="/locker-room" className="flex items-center" onClick={() => setOpenNav(false)}>
+                    Locker Room
                 </NavLink>
             </Typography>
             <Typography
@@ -128,7 +138,7 @@ export default function Header() {
     );
 
     return (
-        <Navbar className="mx-auto py-3 px-5 md:px-8 md:py-4 text-black rounded-none">
+        <Navbar className="mx-auto py-3 px-5 md:px-8 md:py-4 text-black rounded-none max-w-none">
             <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
                 <Typography
                     as="li"
@@ -141,7 +151,7 @@ export default function Header() {
                     </NavLink>
                 </Typography>
                 <div className="hidden md:block">{navList}</div>
-                <Button variant="gradient" size="sm" className="hidden md:inline-block bg-green-500 text-white p-4 py-2">
+                <Button variant="gradient" size="sm" className="hidden md:inline-block bg-green-500 text-white p-4 py-2" onClick={clickHandler}>
                     <span>Create your own team!</span>
                 </Button>
                 <IconButton
@@ -185,7 +195,7 @@ export default function Header() {
             <MobileNav open={openNav} className={`${!openNav ? 'hidden' : '!h-auto'}`}>
                 <div className="container mx-auto">
                     {navList}
-                    <Button variant="gradient" size="sm" fullWidth className="mb-2 bg-green-500" onClick={() => setOpenNav(false)}>
+                    <Button variant="gradient" size="sm" fullWidth className="mb-2 bg-green-500" onClick={clickHandler}>
                         <span>Create your own team!</span>
                     </Button>
                 </div>
