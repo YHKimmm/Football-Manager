@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Uploader from "../../components/Uploader";
 import { getAccessToken } from "../../utilities/cognito";
 
 const UpdateProfile = ({ user, handleUpdateUser }) => {
@@ -19,7 +20,7 @@ const UpdateProfile = ({ user, handleUpdateUser }) => {
                 body: JSON.stringify({
                     fullname,
                     bio,
-                    profile_picture_url: profilePicUrl,
+                    profile_picture_url: profilePicUrl.split("?")[0],
                 }),
             });
             const data = await response.json();
@@ -29,6 +30,7 @@ const UpdateProfile = ({ user, handleUpdateUser }) => {
             console.error(err);
         }
     };
+
 
     return (
         <div className="flex flex-col items-center h-[70vh] p-7 mt-5">
@@ -66,13 +68,9 @@ const UpdateProfile = ({ user, handleUpdateUser }) => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="profile-picture">
                             Profile Picture URL
                         </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                            id="profile-picture"
-                            type="text"
-                            placeholder="https://via.placeholder.com/150"
-                            value={profilePicUrl}
-                            onChange={(e) => setProfilePicUrl(e.target.value)}
-                        />
+                        <div>
+                            <Uploader setProfilePicUrl={setProfilePicUrl} />
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">

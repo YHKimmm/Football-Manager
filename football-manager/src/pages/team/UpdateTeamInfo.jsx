@@ -3,14 +3,16 @@ import { getAccessToken } from "../../utilities/cognito";
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import { useMemo } from 'react';
+import TeamLogoUploader from "../../components/TeamLogoUploader";
 
 const UpdateTeamInfo = ({ teamInfo, handleUpdateUser }) => {
     const [city, setCity] = useState(teamInfo.city || "");
-    const [country, setCountry] = useState(teamInfo.country || "");
+    const [country, setCountry] = useState(teamInfo.country || {});
     const [foundedDate, setFoundedDate] = useState(teamInfo.founded_date || "");
     const [logoUrl, setLogoUrl] = useState(teamInfo.logo_url || "");
     const [name, setName] = useState(teamInfo.name || "");
 
+    console.log("teamInfo", teamInfo);
     // country selector
     const options = useMemo(() => countryList().getData(), [])
 
@@ -32,7 +34,7 @@ const UpdateTeamInfo = ({ teamInfo, handleUpdateUser }) => {
                     },
                     body: JSON.stringify({
                         name,
-                        logo_url: logoUrl,
+                        logo_url: logoUrl.split("?")[0],
                         city,
                         country,
                         founded_date: foundedDate,
@@ -73,7 +75,7 @@ const UpdateTeamInfo = ({ teamInfo, handleUpdateUser }) => {
                                     options={options}
                                     value={country}
                                     onChange={changeHandler}
-                                    placeholder={JSON.parse(country).label}
+                                    placeholder={JSON.parse(teamInfo.country).label}
                                 />
                             </div>
                             <div className="w-1/2 ml-2">
@@ -84,7 +86,10 @@ const UpdateTeamInfo = ({ teamInfo, handleUpdateUser }) => {
                     </div>
                     <div className="mb-4">
                         <label className="block text-yellow-400 font-semibold mb-2" htmlFor="logo_url">Logo URL</label>
-                        <input className="border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder={logoUrl} value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)} />
+                        {/* <input className="border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder={logoUrl} value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)} /> */}
+                        <div className="border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <TeamLogoUploader setLogoUrl={setLogoUrl} />
+                        </div>
                     </div>
                     <div className="flex justify-center">
                         <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 mt-3 font-semibold py-2 px-4 rounded-lg" type="submit">Update Team</button>

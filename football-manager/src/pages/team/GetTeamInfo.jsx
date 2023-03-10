@@ -25,7 +25,7 @@ function GetTeamInfo() {
             });
         const data = await response.json();
         console.log('data', data);
-        setTeamInfo(data.team);
+        setTeamInfo({ ...data.team, logo_url: data.team.logo_url.split("?")[0] });
         setCoachInfo(data.coach);
         setUpdatedTeamInfo(data.team);
     }
@@ -42,17 +42,23 @@ function GetTeamInfo() {
 
     return (
         <div className='md:flex md:m-auto md:justify-center md:bg-gray-500 md:min-h-[80vh]'>
-            <div className="bg-gray-700 max-w-screen-2xl mx-auto p-10 md:flex md:flex-col md:justify-center">
-                <div className="p-8">
+            <div className="bg-gray-700 max-w-screen-2xl mx-auto p-5 md:flex md:flex-col md:justify-center">
+                <div className="p-5">
                     <h1 className="text-2xl font-semibold text-yellow-400 mb-4">{updatedTeamInfo.name}'s Team Information</h1>
-                    <h4 className="text-lg font-semibold text-yellow-400 mb-4">Head Coach: {coachInfo?.fullname}</h4>
+                    <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Head Coach: <span className='text-gray-200 font-light'>{coachInfo?.fullname}</span></h4>
                     <div className="bg-gray-600 rounded-lg shadow-md p-4">
                         <div className="flex items-center mb-2">
                             <img className="w-24 h-24 object-contain rounded-lg mr-4" src={updatedTeamInfo.logo_url} alt="" />
                             <div>
-                                <p className="text-base font-semibold text-yellow-400 mb-2">City: {updatedTeamInfo.city}</p>
-                                <p className="text-base font-semibold text-yellow-400 mb-2">Country: {updatedTeamInfo.country ? JSON.parse(updatedTeamInfo.country).label : ""}</p>
-                                <p className="text-base font-semibold text-yellow-400">Founded Date: {updatedTeamInfo.founded_date}</p>
+                                <p className="mr-4">
+                                    <span className="font-semibold text-yellow-400 mr-1">City:</span> <span className='text-gray-200'>{updatedTeamInfo.city}</span>
+                                </p>
+                                <p className="mr-4">
+                                    <span className="font-semibold text-yellow-400 mr-1">Country:</span> <span className='text-gray-200'>{updatedTeamInfo.country ? JSON.parse(updatedTeamInfo.country).label : ""}</span>
+                                </p>
+                                <p className="mr-4">
+                                    <span className="font-semibold text-yellow-400 mr-1">Founded Date:</span> <span className='text-gray-200'> {updatedTeamInfo.founded_date}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -77,8 +83,8 @@ function GetTeamInfo() {
                                     alt='Zlatan Ibrahimovic'
                                     className='w-1/4 h-1/3 object-contain rounded-lg mr-8'
                                 />
-                                <p className='text-base w-1/2 mt-2 font-semibold text-yellow-400 mb-2 md:text-lg'>
-                                    Fun Fact: Zlatan Ibrahimovic is the only player to have won the UEFA Champions League with three different clubs.
+                                <p className='text-base w-1/2 mt-4 font-semibold text-yellow-400 mb-2 md:text-lg'>
+                                    Fun Fact: <span className='font-light'>Zlatan Ibrahimovic is the only player to have won the UEFA Champions League with three different clubs.</span>
                                 </p>
                             </div>
                             <div className='flex items-center justify-center'>
@@ -88,7 +94,7 @@ function GetTeamInfo() {
                                     className='w-1/4 h-1/3 object-contain rounded-lg mr-8'
                                 />
                                 <p className='text-base w-1/2 font-semibold text-yellow-400 mb-2 md:text-lg'>
-                                    Fun Fact: Neymar Jr's full name is Neymar da Silva Santos Júnior, and he is the third highest goal scorer for the Brazilian national team.
+                                    Fun Fact: <span className='font-light'>Neymar Jr is the only player to have scored a hat-trick in the UEFA Champions League final.</span>
                                 </p>
                             </div>
                         </div>

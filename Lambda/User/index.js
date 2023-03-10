@@ -144,6 +144,8 @@ const updateCoachInfo = async (event) => {
 
 
 export const handler = async (event) => {
+    console.log('Request Event: ', event)
+
     if (!pool) {
         const connectionString = process.env.DATABASE_URL;
         pool = new Pool({
