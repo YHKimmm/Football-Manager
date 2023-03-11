@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Uploader from "../../components/Uploader";
+import Uploader from "../../components/ImageUploadToS3Bucket/ProfilePictureUploader";
 import { getAccessToken } from "../../utilities/cognito";
 
 const UpdateProfile = ({ user, handleUpdateUser }) => {

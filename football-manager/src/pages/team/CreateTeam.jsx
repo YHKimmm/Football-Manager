@@ -4,6 +4,7 @@ import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import TeamLogoUploader from '../../components/ImageUploadToS3Bucket/TeamLogoUploader';
 
 const CreateTeam = () => {
     const [teamName, setTeamName] = useState('');
@@ -34,7 +35,7 @@ const CreateTeam = () => {
             },
             body: JSON.stringify({
                 name: teamName,
-                logo_url: teamLogoUrl,
+                logo_url: teamLogoUrl.split('?')[0],
                 city,
                 country,
                 founded_date: foundedDate,
@@ -64,25 +65,18 @@ const CreateTeam = () => {
                         type="text"
                         id="team-name"
                         name="team-name"
-                        className="border-2 border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring focus:border-blue-400"
+                        className="border-2 border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring focus:border-green-400"
                         value={teamName}
                         onChange={(event) => setTeamName(event.target.value)}
                         required
                     />
                 </div>
-                <div className="flex flex-col mb-4">
+                {/* <div className="flex flex-col mb-4">
                     <label htmlFor="team-logo-url" className="text-lg font-semibold mb-2">
                         Team Logo URL
                     </label>
-                    <input
-                        type="text"
-                        id="team-logo-url"
-                        name="team-logo-url"
-                        className="border-2 border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring focus:border-blue-400"
-                        value={teamLogoUrl}
-                        onChange={(event) => setTeamLogoUrl(event.target.value)}
-                    />
-                </div>
+                    <TeamLogoUploader setTeamLogoUrl={setTeamLogoUrl} />
+                </div> */}
                 <div className="flex flex-col mb-4">
                     <label htmlFor="city" className="text-lg font-semibold mb-2">
                         City
@@ -91,7 +85,7 @@ const CreateTeam = () => {
                         type="text"
                         id="city"
                         name="city"
-                        className="border-2 border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring focus:border-blue-400"
+                        className="border-2 border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring focus:border-green-400"
                         value={city}
                         onChange={(event) => setCity(event.target.value)}
                         required
@@ -102,7 +96,7 @@ const CreateTeam = () => {
                         Country
                     </label>
                     <Select
-                        className="rounded-lg py-2 focus:outline-none focus:ring focus:border-blue-400"
+                        className="rounded-lg py-2 focus:outline-none focus:ring focus:border-green-400"
                         options={options}
                         value={country}
                         onChange={changeHandler}
@@ -116,7 +110,7 @@ const CreateTeam = () => {
                         type="date"
                         id="founded-date"
                         name="founded-date"
-                        className="border-2 border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring focus:border-blue-400"
+                        className="border-2 border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring focus:border-green-400"
                         value={foundedDate}
                         onChange={(event) => setFoundedDate(event.target.value)}
                         required

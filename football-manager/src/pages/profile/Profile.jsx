@@ -21,7 +21,7 @@ const Profile = () => {
             const data = await response.json();
             console.log("data", data);
             console.log("userData", data);
-            setUser({ ...data, profile_picture_url: data.profile_picture_url.split("?")[0] });
+            setUser(data);
             setUpdatedUser(data);
         } catch (err) {
             console.error(err);

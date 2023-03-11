@@ -1,4 +1,5 @@
 import pg from 'pg'
+import AWS from 'aws-sdk';
 
 const { Pool } = pg
 

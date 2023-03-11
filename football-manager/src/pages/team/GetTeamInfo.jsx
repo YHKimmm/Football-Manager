@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getAccessToken } from '../../utilities/cognito';
 import UpdateTeamInfo from './UpdateTeamInfo';
 
 const imageFolderPath = import.meta.env.BASE_URL + "";
 
 function GetTeamInfo() {
+    const naviagate = useNavigate();
+
     const [teamInfo, setTeamInfo] = useState({});
     const [updatedTeamInfo, setUpdatedTeamInfo] = useState({});
     const [coachInfo, setCoachInfo] = useState({});
@@ -25,7 +27,11 @@ function GetTeamInfo() {
             });
         const data = await response.json();
         console.log('data', data);
-        setTeamInfo({ ...data.team, logo_url: data.team.logo_url.split("?")[0] });
+        if (data.team === "") {
+            setTeamInfo({ ...data.team });
+        } else {
+            setTeamInfo({ ...data.team, logo_url: data.team.logo_url.split("?")[0] });
+        }
         setCoachInfo(data.coach);
         setUpdatedTeamInfo(data.team);
     }
@@ -48,7 +54,11 @@ function GetTeamInfo() {
                     <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Head Coach: <span className='text-gray-200 font-light'>{coachInfo?.fullname}</span></h4>
                     <div className="bg-gray-600 rounded-lg shadow-md p-4">
                         <div className="flex items-center mb-2">
-                            <img className="w-24 h-24 object-contain rounded-lg mr-4" src={updatedTeamInfo.logo_url} alt="" />
+                            {updatedTeamInfo.logo_url === "" ? (
+                                <span className="font-light mr-5 text-yellow-400">No logo available</span>
+                            ) : (
+                                <img className="w-28 h-28 object-contain rounded-lg" src={updatedTeamInfo.logo_url} alt="" />
+                            )}
                             <div>
                                 <p className="mr-4">
                                     <span className="font-semibold text-yellow-400 mr-1">City:</span> <span className='text-gray-200'>{updatedTeamInfo.city}</span>
@@ -65,10 +75,22 @@ function GetTeamInfo() {
                 </div>
                 <div className="flex justify-center">
                     <button
-                        className="bg-yellow-400 text-gray-700 font-semibold py-2 px-8 rounded-lg shadow-md hover:bg-yellow-500"
+                        className="m-auto w-40 shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 bg-yellow-400 text-gray-700 font-semibold py-2 px-8 rounded-lg hover:bg-yellow-500"
                         onClick={() => setIsEditable(!isEditable)}
                     >
                         Edit Team Info
+                    </button>
+                </div>
+                <hr className='my-7' />
+                <div className='flex flex-col justify-center items-center'>
+                    <p className='text-gray-200 tracking-widest'>
+                        Create your own player and add them to your team!
+                    </p>
+                    <button
+                        onClick={() => naviagate(`/team/${id}/create-player`)}
+                        className="m-auto w-40 my-5 bg-pink-500 text-white rounded-lg hover:bg-pink-600 font-bold text-sm px-6 py-3 shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                    >
+                        Create Player
                     </button>
                 </div>
             </div>

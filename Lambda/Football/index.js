@@ -4,8 +4,8 @@ const { Pool } = pg
 let pool
 
 const createTeam = async (event) => {
-    const newTEAM = JSON.parse(event.body);
-    console.log(newTEAM);
+    const newTeam = JSON.parse(event.body);
+    console.log(newTeam);
     const userId = event.requestContext.authorizer.jwt.claims.sub;
     const res = await pool.query(`
         SELECT * FROM coaches WHERE user_uuid = $1
@@ -20,11 +20,11 @@ const createTeam = async (event) => {
             values: [
                 userId,
                 res.rows[0].id,
-                newTEAM.founded_date,
-                newTEAM.city,
-                newTEAM.country,
-                newTEAM.name,
-                newTEAM.logo_url,
+                newTeam.founded_date,
+                newTeam.city,
+                newTeam.country,
+                newTeam.name,
+                newTeam.logo_url,
             ],
         };
         const teamResult = await pool.query(teamQuery);
@@ -35,11 +35,11 @@ const createTeam = async (event) => {
             values: [
                 userId,
                 teamResult.rows[0].id,
-                newTEAM.player.name,
-                newTEAM.player.position,
-                newTEAM.player.height,
-                newTEAM.player.weight,
-                newTEAM.player.age,
+                newTeam.player.name,
+                newTeam.player.position,
+                newTeam.player.height,
+                newTeam.player.weight,
+                newTeam.player.age,
             ],
         };
         await pool.query(playerQuery);
@@ -126,6 +126,7 @@ const getSingleTeamInfo = async (event) => {
         body: JSON.stringify({
             team: teamRes.rows[0],
             coach: coachRes.rows[0],
+            id: teamRes.rows[0].id,
         }),
     };
     return response;
@@ -133,28 +134,32 @@ const getSingleTeamInfo = async (event) => {
 
 const updateTeamInfo = async (event) => {
     const userId = event.requestContext.authorizer.jwt.claims.sub;
+    let id = event?.pathParameters?.id
+
     const teamInfo = JSON.parse(event.body);
     console.log(teamInfo);
+    console.log(id, 'team id!!@!');
 
     const res = await pool.query(`
         SELECT * FROM coaches WHERE user_uuid = $1
     `, [userId])
 
     try {
-
         const teamQuery = {
             text:
-                'UPDATE teams SET founded_date = $1, city = $2, country = $3, name = $4, logo_url = $5, coach_id = $6 WHERE user_uuid = $7',
+                'UPDATE teams SET user_uuid = $1, coach_id = $2, founded_date = $3, city = $4, country = $5, name = $6, logo_url = $7 WHERE id = $8',
             values: [
+                userId,
+                res.rows[0].id,
                 teamInfo.founded_date,
                 teamInfo.city,
                 teamInfo.country,
                 teamInfo.name,
                 teamInfo.logo_url,
-                res.rows[0].id,
-                userId,
+                id,
             ],
         };
+        console.log('team Query', teamQuery);
         await pool.query(teamQuery);
 
         const response = {

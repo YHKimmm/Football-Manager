@@ -17,6 +17,7 @@ import Profile from "./pages/profile/Profile";
 import CreateTeam from "./pages/team/CreateTeam";
 import LockerRoom from "./pages/team/LockerRoom";
 import GetTeamInfo from "./pages/team/GetTeamInfo";
+import CreatePlayer from "./pages/player/CreatePlayer";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -51,6 +52,9 @@ function App() {
         <Route path="/create-team" element={isAuthenticated ? <CreateTeam /> : <SignIn />} />
         <Route path="/locker-room" element={isAuthenticated ? <LockerRoom /> : <SignIn />} />
         <Route path="/team/:id" element={isAuthenticated ? <GetTeamInfo /> : <SignIn />} />
+
+        {/* Player Routes */}
+        <Route path="/team/:id/create-player" element={isAuthenticated ? <CreatePlayer /> : <SignIn />} />
       </Routes>
     </div>
   );

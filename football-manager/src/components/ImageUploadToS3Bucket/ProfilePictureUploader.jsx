@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { getAccessToken } from "../utilities/cognito";
+import { getAccessToken } from "../../utilities/cognito";
+import Spinner from "../Spinner";
 
-const Uploader = ({ setProfilePicUrl }) => {
+const ProfilePictureUploader = ({ setProfilePicUrl }) => {
+    const [isLoading, setIsLoading] = useState(false);
+
     const API_ENDPOINT = "https://4x0amn0nmi.execute-api.ca-central-1.amazonaws.com/default/image";
 
     const handleChange = async (e) => {
+        setIsLoading(true);
+
         const file = e.target.files[0];
         console.log("file: ", file);
 
@@ -21,7 +26,7 @@ const Uploader = ({ setProfilePicUrl }) => {
             const result = await fetch(response.data.uploadURL, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "image/png",
+                    ContentType: 'image/*',
                 },
                 body: file,
             });
@@ -47,6 +52,7 @@ const Uploader = ({ setProfilePicUrl }) => {
             // Update profile_pic_url in state
             setProfilePicUrl(imageUrl);
 
+            setIsLoading(false);
 
         } catch (error) {
             console.error(error);
@@ -54,10 +60,16 @@ const Uploader = ({ setProfilePicUrl }) => {
     };
 
     return (
-        <>
-            <input type="file" accept=".png,.jpg,.jpeg" onChange={handleChange} />
-        </>
+        <div className="relative">
+            <input
+                type="file"
+                accept=".png,.jpg,.jpeg"
+                className="py-2 px-4 rounded-lg bg-gray-100 text-gray-700"
+                onChange={handleChange}
+            />
+            {isLoading && <Spinner />}
+        </div>
     );
 };
 
-export default Uploader;
+export default ProfilePictureUploader;
