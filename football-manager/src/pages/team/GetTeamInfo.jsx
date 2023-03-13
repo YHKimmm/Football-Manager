@@ -83,14 +83,14 @@ function GetTeamInfo() {
                 </div>
                 <hr className='my-7' />
                 <div className='flex flex-col justify-center items-center'>
-                    <p className='text-gray-200 tracking-widest'>
-                        Create your own player and add them to your team!
+                    <p className='text-gray-200 tracking-widest text-center'>
+                        Create your own player and manage them for your team!
                     </p>
                     <button
                         onClick={() => naviagate(`/team/${id}/create-player`)}
-                        className="m-auto w-40 my-5 bg-pink-500 text-white rounded-lg hover:bg-pink-600 font-bold text-sm px-6 py-3 shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                        className="m-auto w-40 my-5 text-base tracking-wider bg-pink-500 text-white rounded-lg hover:bg-pink-600 font-bold px-6 py-3 shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
                     >
-                        Create Player
+                        Manage Player
                     </button>
                 </div>
             </div>

@@ -39,13 +39,6 @@ const CreateTeam = () => {
                 city,
                 country,
                 founded_date: foundedDate,
-                player: {
-                    name: '',
-                    position: '',
-                    height: '',
-                    weight: '',
-                    age: '',
-                },
             }),
         });
         const data = await response.json();
@@ -54,7 +47,7 @@ const CreateTeam = () => {
     };
 
     return (
-        <div className="p-8 max-w-screen-md mx-auto">
+        <div className="p-8 max-w-screen-sm mx-auto">
             <h1 className="text-3xl font-bold text-center mb-6">Create a New Team</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="flex flex-col mb-4">
@@ -71,12 +64,6 @@ const CreateTeam = () => {
                         required
                     />
                 </div>
-                {/* <div className="flex flex-col mb-4">
-                    <label htmlFor="team-logo-url" className="text-lg font-semibold mb-2">
-                        Team Logo URL
-                    </label>
-                    <TeamLogoUploader setTeamLogoUrl={setTeamLogoUrl} />
-                </div> */}
                 <div className="flex flex-col mb-4">
                     <label htmlFor="city" className="text-lg font-semibold mb-2">
                         City

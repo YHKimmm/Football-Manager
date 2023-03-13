@@ -12,7 +12,6 @@ const createTeam = async (event) => {
     `, [userId])
 
     try {
-        await pool.query('BEGIN');
 
         const teamQuery = {
             text:
@@ -27,24 +26,7 @@ const createTeam = async (event) => {
                 newTeam.logo_url,
             ],
         };
-        const teamResult = await pool.query(teamQuery);
-
-
-        const playerQuery = {
-            text: 'INSERT INTO players (user_uuid, team_id, name, position, height, weight, age) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
-            values: [
-                userId,
-                teamResult.rows[0].id,
-                newTeam.player.name,
-                newTeam.player.position,
-                newTeam.player.height,
-                newTeam.player.weight,
-                newTeam.player.age,
-            ],
-        };
-        await pool.query(playerQuery);
-
-        await pool.query('COMMIT');
+        await pool.query(teamQuery);
 
         const response = {
             statusCode: 201,
