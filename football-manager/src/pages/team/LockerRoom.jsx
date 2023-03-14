@@ -3,6 +3,8 @@ import { getAccessToken } from "../../utilities/cognito";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+const imageFolderPath = import.meta.env.BASE_URL + "";
+
 const LockerRoom = () => {
     const [team, setTeam] = useState([]);
     const [coachInfo, setCoachInfo] = useState({});
@@ -31,12 +33,21 @@ const LockerRoom = () => {
 
     return (
         <div className="bg-gray-700 p-3">
-            <div className="p-8 max-w-screen-2xl mx-auto">
-                <h1 className="text-2xl font-semibold text-yellow-400 mb-4">{user.username.toUpperCase()}'s Locker Room</h1>
-                <p className="text-gray-500 text-base font-bold">Head Coach</p>
-                <p className="text-2xl mb-6 font-bold text-yellow-400">{coachInfo.fullname}</p>
-                <p className="text-gray-500 text-base font-bold">Bio</p>
-                <p className="text-xl mb-6 font-bold text-yellow-400">{coachInfo.bio}</p>
+            <div className="p-2 max-w-screen-2xl mx-auto flex justify-between items-center sm:ml-15">
+                <div>
+                    <h1 className="text-2xl md:text-4xl tracking-wider font-semibold text-yellow-400 mb-4">{user.username.toUpperCase()}'s Locker Room</h1>
+                    <p className="text-gray-500 text-base md:text-xl font-bold">Head Coach</p>
+                    <p className="text-2xl mb-6 font-bold md:text-3xl text-yellow-400">{coachInfo.fullname}</p>
+                    <p className="text-gray-500 text-base md:text-xl font-bold">Bio</p>
+                    <p className="text-xl mb-6 font-bold md:text-2xl text-yellow-400">{coachInfo.bio}</p>
+                </div>
+                <div className="sm:w-1/2 ml-5">
+                    <img
+                        className="object-cover mb-4 rounded-xl"
+                        src={`${imageFolderPath}lockerroom.jpg`}
+                        alt="profile"
+                    />
+                </div>
             </div>
             <div className="p-8 bg-gray-600 max-w-screen-2xl mx-auto text-white flex flex-col">
                 <h1 className="text-2xl font-semibold text-yellow-400 mb-4">Locker Room</h1>

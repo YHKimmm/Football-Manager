@@ -21,6 +21,7 @@ const CreatePlayer = () => {
         const { name, value } = e.target;
         setNewPlayer((prevState) => ({
             ...prevState,
+            //creates a new object with a key-value pair
             [name]: value
         }));
     };
@@ -171,7 +172,7 @@ const CreatePlayer = () => {
 
             <div className="p-5 w-full">
                 <h2 className="text-lg font-semibold text-yellow-400 mb-4 text-center">Players</h2>
-                <div className={`${players.length > 0 ? 'grid grid-cols-2 md:grid-cols-4 gap-4' : 'block'}`}>
+                <div className={`${players.length > 0 ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4' : 'block'}`}>
                     {players.length > 0 ? (
                         players.map((player, idx) => (
                             <div key={idx}>

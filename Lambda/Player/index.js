@@ -100,6 +100,110 @@ const getPlayers = async (event) => {
     }
 };
 
+const getPlayer = async (event) => {
+    const playerId = event?.pathParameters?.playerId;
+    console.log('playerId', playerId);
+
+    try {
+        const playerQuery = {
+            text: 'SELECT * FROM players WHERE id = $1',
+            values: [playerId],
+        };
+
+        //return json array of players
+        const { rows } = await pool.query(playerQuery);
+        console.log('rows from get player', rows);
+
+        const response = {
+            statusCode: 200,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(rows),
+        };
+
+        return response;
+
+    } catch (err) {
+        console.log(err);
+        const response = {
+            statusCode: 500,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ message: 'error' }),
+        };
+
+        return response;
+    }
+};
+
+const updatePlayer = async (event) => {
+    const updatedPlayer = JSON.parse(event.body);
+    console.log('updated player', updatedPlayer);
+    const userId = event.requestContext.authorizer.jwt.claims.sub;
+
+    const playerId = event?.pathParameters?.id;
+    console.log('playerId', playerId);
+
+    const playerQuery = {
+        text: 'SELECT * FROM players WHERE id = $1',
+        values: [playerId],
+    };
+    const { rows } = await pool.query(playerQuery);
+
+    const teamId = rows[0].team_id;
+    console.log('teamId', teamId);
+    try {
+        const playerQuery = {
+            text: 'UPDATE players SET name = $1, position = $2, height = $3, weight = $4, age = $5, user_uuid = $6, team_id = $7 WHERE id = $8',
+            values: [
+                updatedPlayer.name,
+                updatedPlayer.position,
+                updatedPlayer.height,
+                updatedPlayer.weight,
+                updatedPlayer.age,
+                userId,
+                teamId,
+                playerId,
+            ],
+        };
+        await pool.query(playerQuery);
+
+        const response = {
+            statusCode: 201,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: updatedPlayer.name,
+                position: updatedPlayer.position,
+                height: updatedPlayer.height,
+                weight: updatedPlayer.weight,
+                age: updatedPlayer.age,
+                user_uuid: userId,
+                team_id: teamId,
+                id: playerId,
+            }),
+        };
+        console.log('response', response)
+
+        return response;
+
+    } catch (err) {
+        console.log(err);
+        const response = {
+            statusCode: 500,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ message: 'error' }),
+        };
+
+        return response;
+    }
+};
+
 export const handler = async (event) => {
     if (!pool) {
         const connectionString = process.env.DATABASE_URL;
@@ -115,7 +219,12 @@ export const handler = async (event) => {
         case 'POST':
             return await createPlayer(event);
         case 'GET':
+            if (event?.pathParameters?.playerId) {
+                return await getPlayer(event);
+            }
             return await getPlayers(event);
+        case 'PUT':
+            return await updatePlayer(event);
         default:
             return {
                 statusCode: 405,
