@@ -33,15 +33,15 @@ const LockerRoom = () => {
 
     return (
         <div className="bg-gray-700 p-3">
-            <div className="p-2 max-w-screen-2xl mx-auto flex justify-between items-center sm:ml-15">
+            <div className="md:px-10 px-3 max-w-screen-2xl mx-auto flex justify-between items-center sm:ml-15">
                 <div>
-                    <h1 className="text-2xl md:text-4xl tracking-wider font-semibold text-yellow-400 mb-4">{user.username.toUpperCase()}'s Locker Room</h1>
+                    <h1 className="text-2xl md:text-4xl tracking-wider font-semibold text-yellow-400 md:mb-4 min-w-[150px]">{user.username.toUpperCase()}'s Locker Room</h1>
                     <p className="text-gray-500 text-base md:text-xl font-bold">Head Coach</p>
-                    <p className="text-2xl mb-6 font-bold md:text-3xl text-yellow-400">{coachInfo.fullname}</p>
+                    <p className="text-2xl md:mb-6 font-bold md:text-3xl text-yellow-400">{coachInfo.fullname}</p>
                     <p className="text-gray-500 text-base md:text-xl font-bold">Bio</p>
                     <p className="text-xl mb-6 font-bold md:text-2xl text-yellow-400">{coachInfo.bio}</p>
                 </div>
-                <div className="sm:w-1/2 ml-5">
+                <div className="max-w-lg ml-5">
                     <img
                         className="object-cover mb-4 rounded-xl"
                         src={`${imageFolderPath}lockerroom.jpg`}

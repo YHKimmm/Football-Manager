@@ -1,122 +1,65 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Home = () => {
-    const [premierLeague, setPremierLeague] = useState([]);
-    const [laLiga, setLaLiga] = useState([]);
-    const [serieA, setSerieA] = useState([]);
-    const [ligue1, setLigue1] = useState([]);
-    const [bundesliga, setBundesliga] = useState([]);
+const imageFolderPath = import.meta.env.BASE_URL + "";
 
-    async function fetchLeague(country) {
-        const response = await fetch(`https://api-football-v1.p.rapidapi.com/v3/leagues?country=${country}`,
-            {
-                method: "GET",
-                headers: {
-                    'X-RapidAPI-Key': 'b6d88e06e9mshf78c6545bb0c9b0p10a9d9jsn1d8839490f0e',
-                    'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
-                }
-            }
-        );
-        const data = await response.json();
-        return data.response[0].league;
-    }
-
-    useEffect(() => {
-        Promise.all([
-            fetchLeague("England"),
-            fetchLeague("Spain"),
-            fetchLeague("Italy"),
-            fetchLeague("France"),
-            fetchLeague("Germany")
-        ]).then(([premierLeague, laLiga, serieA, ligue1, bundesliga]) => {
-            setPremierLeague(premierLeague);
-            setLaLiga(laLiga);
-            setSerieA(serieA);
-            setLigue1(ligue1);
-            setBundesliga(bundesliga);
-        })
-            .catch((error) => {
-                console.log(error);
-            });
-
-    }, []);
+function Home() {
+    // Get a random football image from Unsplash
+    const randomImage = 'https://source.unsplash.com/featured/?football,soccer';
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-4 tracking-widest">
-                Welcome to Football Manager
-            </h1>
-            <h2 className="text-2xl font-bold mb-4">
-                Explore the world of football and manage your own team
-            </h2>
-            <p className="text-lg mb-4">
-                Select a league to view the teams and players from the selected season
-            </p>
-
-            <div className="flex flex-wrap -mx-6 mb-8">
-                <div className="w-full md:w-1/3 px-4 text-center my-4">
-                    <Link to='/premier-league'>
-                        <div className="bg-white rounded-lg shadow-md p-4">
-                            <img src={premierLeague.logo} alt={premierLeague.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2">{premierLeague.name}</h3>
-                            <p className="text-lg">
-                                Explore the teams and players of the English Premier League.
-                            </p>
+        <div className="relative bg-cover bg-center min-h-screen" style={{ backgroundImage: `url(${randomImage})` }}>
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <div className="absolute inset-0">
+                <div className="container mx-auto px-6 flex items-center justify-center h-full">
+                    <div className="text-center">
+                        <img className="h-32 mx-auto mb-6" src={`${imageFolderPath}logo.png`} alt="Football Manager Logo" />
+                        <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-5">Manage Your Own Football Team</h1>
+                        <div className='flex justify-center items-center'>
+                            <Link
+                                to='/locker-room'
+                                className="text-white text-lg px-5 flex justify-center items-center mt-8 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                            >
+                                <span className="mr-2">Go to locker room</span>
+                                <span className="animate-bounce">
+                                    <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                    </svg>
+                                </span>
+                            </Link>
+                            <Link
+                                to='/league'
+                                className="text-white text-lg px-5 flex justify-center items-center mt-8 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                            >
+                                <span className="mr-2">Explore Leagues</span>
+                                <span className="animate-bounce">
+                                    <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                    </svg>
+                                </span>
+                            </Link>
                         </div>
-                    </Link>
+                    </div>
                 </div>
-
-                <div className="w-full md:w-1/3 px-4 text-center my-4">
-                    <Link to='/la-liga'>
-                        <div className="bg-white rounded-lg shadow-md p-4">
-                            <img src={laLiga.logo} alt={laLiga.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2">{laLiga.name}</h3>
-                            <p className="text-lg">
-                                Discover the teams and players of the Spanish La Liga.
-                            </p>
+            </div>
+            <div className="bg-white py-8">
+                <div className="container mx-auto px-6">
+                    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-3xl">
+                        <div className="md:flex">
+                            <div className="md:flex-shrink-0">
+                                <img className="h-72 sm:h-56 w-full object-cover md:w-56" src="https://source.unsplash.com/featured/?soccer" alt="League logo" />
+                            </div>
+                            <div className="p-8 hidden sm:block">
+                                <div className="uppercase tracking-wide text-xl text-indigo-500 font-semibold">Explore Leagues, Teams, and Players!</div>
+                                <p href="#" className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Get your own profile!</p>
+                                <p className="mt-2 text-gray-500 text-lg">Be a coach and create your own teams and players as own your peronal taste!</p>
+                            </div>
                         </div>
-                    </Link>
-                </div>
-
-                <div className="w-full md:w-1/3 px-4 text-center my-4">
-                    <Link to='/serie-a'>
-                        <div className="bg-white rounded-lg shadow-md p-4">
-                            <img src={serieA.logo} alt={serieA.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2">{serieA.name}</h3>
-                            <p className="text-lg">
-                                Check out the teams and players of the Italian Serie A.
-                            </p>
-                        </div>
-                    </Link>
-                </div>
-
-                <div className="w-full md:w-1/3 px-4 text-center my-4">
-                    <Link to='/ligue-1'>
-                        <div className="bg-white rounded-lg shadow-md p-4">
-                            <img src={ligue1.logo} alt={ligue1.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2">{ligue1.name}</h3>
-                            <p className="text-lg">
-                                Explore the teams and players of the French Ligue 1.
-                            </p>
-                        </div>
-                    </Link>
-                </div>
-
-                <div className="w-full md:w-1/3 px-4 text-center my-4">
-                    <Link to='/bundesliga'>
-                        <div className="bg-white rounded-lg shadow-md p-4">
-                            <img src={bundesliga.logo} alt={bundesliga.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2">{bundesliga.name}</h3>
-                            <p className="text-lg">
-                                Experience the teams and players of the German Bundesliga.
-                            </p>
-                        </div>
-                    </Link>
+                    </div>
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default Home;

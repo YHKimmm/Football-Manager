@@ -18,6 +18,7 @@ import CreateTeam from "./pages/team/CreateTeam";
 import LockerRoom from "./pages/team/LockerRoom";
 import GetTeamInfo from "./pages/team/GetTeamInfo";
 import CreatePlayer from "./pages/player/CreatePlayer";
+import League from "./pages/League";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/league" element={<League />} />
 
         {/* League Routes */}
         <Route path="/premier-league" element={<PremierLeague />} />
