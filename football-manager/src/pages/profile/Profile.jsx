@@ -61,9 +61,9 @@ const Profile = () => {
                     src={updatedUser.profile_picture_url}
                     alt="Profile Picture"
                 />
-                <h2 className={`${isEditable ? 'text-gray-300' : 'text-emerald-900'} text-2xl font-extrabold mb-2`}>{updatedUser.fullname}</h2>
-                <p className={`${isEditable ? 'text-gray-300 ' : 'text-emerald-900'} text-sm mb-2`}>Head Coach</p>
-                <p className={`${isEditable ? 'text-gray-300' : 'text-emerald-900'} text-sm mb-6 text-center`}>
+                <h2 className={`${isEditable ? 'text-gray-200' : 'text-emerald-300'} text-2xl font-extrabold mb-2`}>{updatedUser.fullname}</h2>
+                <p className={`${isEditable ? 'text-gray-300 ' : 'text-emerald-700'} text-base font-semibold mb-2`}>Head Coach</p>
+                <p className={`${isEditable ? 'text-gray-300' : 'text-emerald-800'} text-base mb-6 text-center`}>
                     {updatedUser.bio}
                 </p>
                 <button

@@ -83,7 +83,7 @@ const CreatePlayer = () => {
         <div className="md:flex md:m-auto bg-gray-500 md:min-h-[80vh]">
             <div className="bg-gray-700 md:w-2/5 p-5 md:flex md:flex-col">
                 <form onSubmit={handleSubmit} className="p-5 w-full">
-                    <h2 className="text-lg font-semibold text-yellow-400 mb-4">Add New Player</h2>
+                    <h2 className="text-lg font-semibold text-yellow-400 mb-4">⛹️‍♀️Add New Player⛹️‍♀️</h2>
                     <div className="flex flex-col mb-4">
                         <label htmlFor="name" className="mb-2 text-yellow-400 font-semibold">
                             Name

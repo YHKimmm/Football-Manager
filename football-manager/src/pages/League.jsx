@@ -46,15 +46,15 @@ const League = () => {
 
     return (
         <div className="m-auto px-4 py-8 relative min-h-[80vh]">
-            <div className="absolute inset-0 bg-cover bg-center filter blur-[3px]"
-                style={{ backgroundImage: `url(${imageFolderPath}shoes.jpg)` }}>
+            <div className="absolute inset-0 bg-cover bg-center filter blur-[5px]"
+                style={{ backgroundImage: `url(${imageFolderPath}game.jpg)` }}>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 relative z-10">
                 <div className="w-full px-4 text-center my-4">
                     <Link to='/premier-league'>
                         <div className="bg-transparent rounded-lg shadow-2xl p-4 hover:shadow-xl h-full">
-                            <img src={premierLeague.logo} alt={premierLeague.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2 text-gray-100">{premierLeague.name}</h3>
+                            <img src={premierLeague.logo} alt={premierLeague.name} className="w-30 h-40 mx-auto mb-4 bg-fuchsia-100 rounded-md" />
+                            <h3 className="text-xl font-bold mb-2 text-gray-100 tracking-widest">{premierLeague.name}</h3>
                             <p className="text-lg text-gray-100">
                                 Explore the teams and players of the English Premier League.
                             </p>
@@ -65,8 +65,8 @@ const League = () => {
                 <div className="w-full px-4 text-center my-4">
                     <Link to='/la-liga'>
                         <div className="bg-transparent rounded-lg shadow-2xl p-4 hover:shadow-xl h-full">
-                            <img src={laLiga.logo} alt={laLiga.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2 text-gray-100">{laLiga.name}</h3>
+                            <img src={laLiga.logo} alt={laLiga.name} className="w-30 h-40 mx-auto mb-4 bg-slate-200 rounded-md" />
+                            <h3 className="text-xl font-bold mb-2 text-gray-100 tracking-widest">{laLiga.name}</h3>
                             <p className="text-lg text-gray-100">
                                 Discover the teams and players of the Spanish La Liga.
                             </p>
@@ -77,8 +77,8 @@ const League = () => {
                 <div className="w-full px-4 text-center my-4">
                     <Link to='/serie-a'>
                         <div className="bg-transparent rounded-lg shadow-2xl p-4 hover:shadow-xl h-full">
-                            <img src={serieA.logo} alt={serieA.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2 text-gray-100">{serieA.name}</h3>
+                            <img src={serieA.logo} alt={serieA.name} className="w-30 h-40 mx-auto mb-4 rounded-md" />
+                            <h3 className="text-xl font-bold mb-2 text-gray-100 tracking-widest">{serieA.name}</h3>
                             <p className="text-lg text-gray-100">
                                 Check out the teams and players of the Italian Serie A.
                             </p>
@@ -89,8 +89,8 @@ const League = () => {
                 <div className="w-full px-4 text-center my-4">
                     <Link to='/ligue-1'>
                         <div className="bg-transparent rounded-lg shadow-2xl p-4 hover:shadow-xl h-full">
-                            <img src={ligue1.logo} alt={ligue1.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2 text-gray-100">{ligue1.name}</h3>
+                            <img src={ligue1.logo} alt={ligue1.name} className="w-30 h-40 mx-auto mb-4 rounded-md" />
+                            <h3 className="text-xl font-bold mb-2 text-gray-100 tracking-widest">{ligue1.name}</h3>
                             <p className="text-lg text-gray-100">
                                 Explore the teams and players of the French Ligue 1.
                             </p>
@@ -102,7 +102,7 @@ const League = () => {
                     <Link to='/bundesliga'>
                         <div className="bg-transparent rounded-lg shadow-2xl p-4 hover:shadow-xl h-full">
                             <img src={bundesliga.logo} alt={bundesliga.name} className="w-30 h-40 mx-auto mb-4" />
-                            <h3 className="text-xl font-bold mb-2 text-gray-100">{bundesliga.name}</h3>
+                            <h3 className="text-xl font-bold mb-2 text-gray-100 tracking-widest">{bundesliga.name}</h3>
                             <p className="text-lg text-gray-100">
                                 Discover the teams and players of the German Bundesliga.
                             </p>

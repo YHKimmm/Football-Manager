@@ -72,6 +72,16 @@ export default function Header() {
                 color="blue-gray"
                 className="p-1 font-normal"
             >
+                <NavLink to="/league" className="flex items-center" onClick={() => setOpenNav(false)}>
+                    League
+                </NavLink>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
                 <NavLink to="/locker-room" className="flex items-center" onClick={() => setOpenNav(false)}>
                     Locker Room
                 </NavLink>
