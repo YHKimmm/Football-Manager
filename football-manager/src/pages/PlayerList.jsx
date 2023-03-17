@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import PlayerInfo from "../components/PlayerInfo";
 import DropDown from "../components/DropDown";
-import TeamDetailModal from "../components/TeamDetailModal";
+import TeamDetailModal from "../components/modal/TeamDetailModal";
 
 const PlayerList = () => {
     const [players, setPlayers] = useState([]);
@@ -84,9 +84,9 @@ const PlayerList = () => {
             <button
                 type="button"
                 onClick={() => setShowModal(true)}
-                className="flex items-center m-auto my-5 bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                className="flex items-center tracking-widest m-auto my-5 bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 transform hover:-translate-y-1 hover:scale-110"
             >
-                More Info about {venue.name}
+                More Info about {team.name}
             </button>
             {showModal ? <TeamDetailModal setShowModal={setShowModal} team={team} venue={venue} /> : null}
 

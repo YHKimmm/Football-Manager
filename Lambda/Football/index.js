@@ -166,6 +166,52 @@ const updateTeamInfo = async (event) => {
     }
 };
 
+const deleteTeam = async (event) => {
+    const userId = event.requestContext.authorizer.jwt.claims.sub;
+    const teamId = event.pathParameters.id;
+
+    const teamRes = await pool.query(`
+        SELECT * FROM teams WHERE id = $1
+    `, [teamId]);
+
+    if (teamRes.rows.length === 0) {
+        const response = {
+            statusCode: 404,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ message: 'Team not found' }),
+        };
+        return response;
+    }
+
+    if (teamRes.rows[0].user_uuid !== userId) {
+        const response = {
+            statusCode: 403,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ message: 'Not authorized' }),
+        };
+        return response;
+    }
+
+    await pool.query(`
+        DELETE FROM teams WHERE id = $1
+    `, [teamId]);
+
+
+    const response = {
+        statusCode: 200,
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({ message: 'ok' }),
+    };
+
+    return response;
+};
+
 export const handler = async (event) => {
     if (!pool) {
         const connectionString = process.env.DATABASE_URL;
@@ -191,6 +237,8 @@ export const handler = async (event) => {
             return await getTeamInfo(event);
         case 'PUT':
             return await updateTeamInfo(event);
+        case 'DELETE':
+            return await deleteTeam(event);
         default:
             return {
                 statusCode: 405,

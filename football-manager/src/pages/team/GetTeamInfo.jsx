@@ -2,16 +2,23 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getAccessToken } from '../../utilities/cognito';
 import UpdateTeamInfo from './UpdateTeamInfo';
+import DeleteModal from '../../components/modal/DeleteModal';
+import { useSelector } from 'react-redux';
 
 const imageFolderPath = import.meta.env.BASE_URL + "";
 
 function GetTeamInfo() {
-    const naviagate = useNavigate();
+    const navigate = useNavigate();
+
+    const captainInfo = useSelector((state) => state.captain.captain);
+    const captain = useSelector((state) => state.captain.captain.name);
 
     const [teamInfo, setTeamInfo] = useState({});
     const [updatedTeamInfo, setUpdatedTeamInfo] = useState({});
     const [coachInfo, setCoachInfo] = useState({});
     const [isEditable, setIsEditable] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+
     const { id } = useParams();
 
     async function fetchTeamInfo() {
@@ -42,6 +49,24 @@ function GetTeamInfo() {
         fetchTeamInfo();
     };
 
+    const deleteHandler = async () => {
+        const token = await getAccessToken();
+        const response = await fetch(
+            `https://3x0lkvn986.execute-api.ca-central-1.amazonaws.com/default/team/${id}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: token,
+                },
+            });
+        const data = await response.json();
+        console.log('data', data);
+        navigate('/locker-room');
+
+        setShowModal(false);
+    };
+
     useEffect(() => {
         handleUpdateUser(updatedTeamInfo);
     }, []);
@@ -49,17 +74,30 @@ function GetTeamInfo() {
     return (
         <div className='md:flex md:m-auto md:justify-center md:bg-gray-500 md:min-h-[80vh]'>
             <div className="bg-gray-700 max-w-screen-2xl mx-auto p-5 md:flex md:flex-col md:justify-center">
+                <a onClick={() => navigate(-1)} className="text-yellow-400 hover:text-yellow-500 cursor-pointer">
+                    ← Back
+                </a>
                 <div className="p-5">
                     <h1 className="text-2xl font-semibold text-yellow-400 mb-4">{updatedTeamInfo.name}'s Team Information</h1>
                     <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Head Coach: <span className='text-gray-200 font-light'>{coachInfo?.fullname}</span></h4>
+                    {captain !== "" && captainInfo.teamId === id ? (
+                        <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Captain: <span className='text-gray-200 font-light'>{captain}</span></h4>
+                    ) : (
+                        <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Captain: <span className='text-gray-200 font-light'>No Captain Assigned</span></h4>
+                    )}
                     <div className="bg-gray-600 rounded-lg shadow-md p-4">
                         <div className="flex items-center mb-2">
                             {updatedTeamInfo.logo_url === "" ? (
-                                <span className="font-light mr-5 text-yellow-400">No logo available</span>
+                                <div className='flex flex-col items-center mr-3'>
+                                    <span className="font-light mr-3 mb-3 text-yellow-400">No Logo Available</span>
+                                    <div className='font-light text-yellow-400 underline'>
+                                        Click Pencil Icon To Add Logo
+                                    </div>
+                                </div>
                             ) : (
                                 <img className="w-28 h-28 object-contain rounded-lg" src={updatedTeamInfo.logo_url} alt="" />
                             )}
-                            <div>
+                            <div className='ml-4'>
                                 <p className="mr-4">
                                     <span className="font-semibold text-yellow-400 mr-1">City:</span> <span className='text-gray-200'>{updatedTeamInfo.city}</span>
                                 </p>
@@ -75,11 +113,27 @@ function GetTeamInfo() {
                 </div>
                 <div className="flex justify-center">
                     <button
-                        className="m-auto w-40 shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 bg-yellow-400 text-gray-700 font-semibold py-2 px-8 rounded-lg hover:bg-yellow-500"
+                        className=" text-yellow-400 hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 font-semibold py-2 px-8 rounded-lg"
                         onClick={() => setIsEditable(!isEditable)}
                     >
-                        Edit Team Info
+                        {isEditable ? (
+                            <span className='material-symbols-outlined'>
+                                close
+                            </span>
+                        ) : (
+                            <span className='material-symbols-outlined'>
+                                edit
+                            </span>)}
                     </button>
+                    <button
+                        className=" text-red-400 hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 font-semibold py-2 px-8 rounded-lg"
+                        onClick={() => setShowModal(true)}
+                    >
+                        <span className='material-symbols-outlined'>
+                            delete
+                        </span>
+                    </button>
+                    {showModal && <DeleteModal showModal={showModal} setShowModal={setShowModal} deleteHandler={deleteHandler} updatedTeamInfo={updatedTeamInfo} />}
                 </div>
                 <hr className='my-7' />
                 <div className='flex flex-col justify-center items-center'>
@@ -87,7 +141,7 @@ function GetTeamInfo() {
                         Create your own player and manage them for your team!
                     </p>
                     <button
-                        onClick={() => naviagate(`/team/${id}/create-player`)}
+                        onClick={() => navigate(`/team/${id}/create-player`)}
                         className="m-auto w-40 my-5 text-base tracking-wider bg-pink-500 text-white rounded-lg hover:bg-pink-600 font-bold px-6 py-3 shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
                     >
                         Manage Player

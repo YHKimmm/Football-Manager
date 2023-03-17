@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { getAccessToken } from '../../utilities/cognito';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import MyPlayerList from '../../components/MyPlayerList';
 import { playerPositionOptions } from '../../utilities/playerPosition';
 
+const imageFolderPath = import.meta.env.BASE_URL + "";
+
 const CreatePlayer = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [newPlayer, setNewPlayer] = useState({
         name: '',
@@ -82,6 +85,9 @@ const CreatePlayer = () => {
     return (
         <div className="md:flex md:m-auto bg-gray-500 md:min-h-[80vh]">
             <div className="bg-gray-700 md:w-2/5 p-5 md:flex md:flex-col">
+                <a onClick={() => navigate(-1)} className="text-yellow-400 hover:text-yellow-500 cursor-pointer">
+                    ← Back
+                </a>
                 <form onSubmit={handleSubmit} className="p-5 w-full">
                     <h2 className="text-lg font-semibold text-yellow-400 mb-4">⛹️‍♀️Add New Player⛹️‍♀️</h2>
                     <div className="flex flex-col mb-4">
@@ -170,12 +176,14 @@ const CreatePlayer = () => {
                 </form>
             </div>
 
-            <div className="p-5 w-full">
-                <h2 className="text-lg font-semibold text-yellow-400 mb-4 text-center">Players</h2>
+            <div className="p-5 w-full relative min-h-screen">
+                <div className="absolute inset-0 w-full h-full bg-cover bg-center filter blur-sm"
+                    style={{ backgroundImage: `url(${imageFolderPath}field.jpg)` }}>
+                </div>
                 <div className={`${players.length > 0 ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4' : 'block'}`}>
                     {players.length > 0 ? (
                         players.map((player, idx) => (
-                            <div key={idx}>
+                            <div key={idx} className="relative">
                                 <MyPlayerList player={player} />
                             </div>
                         ))

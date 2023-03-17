@@ -45,7 +45,7 @@ const League = () => {
     }, []);
 
     return (
-        <div className="m-auto px-4 py-8 relative min-h-[80vh]">
+        <div className="relative flex flex-col items-center min-h-screen">
             <div className="absolute inset-0 bg-cover bg-center filter blur-[5px]"
                 style={{ backgroundImage: `url(${imageFolderPath}game.jpg)` }}>
             </div>
