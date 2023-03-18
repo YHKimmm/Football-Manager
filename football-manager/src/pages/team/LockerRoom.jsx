@@ -55,8 +55,8 @@ const LockerRoom = () => {
                     {team.length ?
                         (
                             team.map((team) => (
-                                <li key={team.id} className="bg-gray-500 rounded-lg shadow-md p-4 hover:bg-slate-500">
-                                    <Link to={`/team/${team.id}`}>
+                                <Link to={`/team/${team.id}`} key={team.id}>
+                                    <li className="bg-gray-500 rounded-lg shadow-md p-4 hover:bg-slate-500 h-full">
                                         <h2 className="text-xl font-semibold text-yellow-400 mb-2">{team ? team.name : 'no team name available'}</h2>
                                         <div className="mb-2">
                                             <p className="mr-4">
@@ -77,8 +77,8 @@ const LockerRoom = () => {
                                                 <img className="w-28 h-28 object-contain rounded-lg" src={team.logo_url} alt="" />
                                             )}
                                         </div>
-                                    </Link>
-                                </li>
+                                    </li>
+                                </Link>
                             ))
                         ) : (
                             <div className="mt-2">

@@ -10,28 +10,16 @@ const CreatePlayer = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [newPlayer, setNewPlayer] = useState({
-        name: '',
-        position: '',
-        height: '',
-        weight: '',
-        age: '',
-    });
-    const [players, setPlayers] = useState([]);
+    const [name, setName] = useState('');
+    const [position, setPosition] = useState('');
+    const [height, setHeight] = useState('');
+    const [weight, setWeight] = useState('');
+    const [age, setAge] = useState('');
 
-    // [name]: value creates a new object with a property whose name is the value of name variable and whose value is the value of the value variable. This new object is merged with the existing state using the spread operator and then set as the new state using setNewPlayer function.
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewPlayer((prevState) => ({
-            ...prevState,
-            //creates a new object with a key-value pair
-            [name]: value
-        }));
-    };
+    const [players, setPlayers] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setPlayers([...players, newPlayer]);
         try {
             const token = await getAccessToken();
             const response = await fetch(`https://00ve5ej1fg.execute-api.ca-central-1.amazonaws.com/default/player/${id}`,
@@ -41,18 +29,17 @@ const CreatePlayer = () => {
                         'Content-Type': 'application/json',
                         Authorization: token,
                     },
-                    body: JSON.stringify(newPlayer),
+                    body: JSON.stringify({
+                        name: name,
+                        position: position,
+                        height: height,
+                        weight: weight,
+                        age: age,
+                    }),
                 })
             const data = await response.json();
+            setPlayers([...players, { id: data.id, team_id: data.team_id, user_uuid: data.user_uuid, name, position, height, weight, age }]);
             console.log('data: ', data);
-            setNewPlayer({
-                name: '',
-                position: '',
-                height: '',
-                weight: '',
-                age: '',
-            });
-            console.log('new players: ', newPlayer);
         } catch (error) {
             console.error(error);
         }
@@ -76,11 +63,7 @@ const CreatePlayer = () => {
             }
         };
         getPlayers();
-    }, [id]);
-
-    useEffect(() => {
-        console.log('players: ', players);
-    }, [players]);
+    }, []);
 
     return (
         <div className="md:flex md:m-auto bg-gray-500 md:min-h-[80vh]">
@@ -98,8 +81,8 @@ const CreatePlayer = () => {
                             type="text"
                             id="name"
                             name="name"
-                            value={newPlayer.name}
-                            onChange={handleInputChange}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             className="min-w-min px-3 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:border-yellow-400"
                             required
                         />
@@ -111,15 +94,15 @@ const CreatePlayer = () => {
                         <select
                             id="position"
                             name="position"
-                            value={newPlayer.position}
-                            onChange={handleInputChange}
+                            value={position}
+                            onChange={(e) => setPosition(e.target.value)}
                             className="min-w-min px-3 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:border-yellow-400"
                             required
                         >
                             <option value="">Select a position</option>
                             {playerPositionOptions().map((position) => (
                                 <option key={position.value} value={position.value}>
-                                    {position.label}
+                                    {position.value}
                                 </option>
                             ))}
                         </select>
@@ -133,8 +116,8 @@ const CreatePlayer = () => {
                             type="text"
                             id="height"
                             name="height"
-                            value={newPlayer.height}
-                            onChange={handleInputChange}
+                            value={height}
+                            onChange={(e) => setHeight(e.target.value)}
                             className="min-w-min px-3 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:border-yellow-400"
                             required
                         />
@@ -147,8 +130,8 @@ const CreatePlayer = () => {
                             type="text"
                             id="weight"
                             name="weight"
-                            value={newPlayer.weight}
-                            onChange={handleInputChange}
+                            value={weight}
+                            onChange={(e) => setWeight(e.target.value)}
                             className="min-w-min px-3 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:border-yellow-400"
                             required
                         />
@@ -161,8 +144,8 @@ const CreatePlayer = () => {
                             type="text"
                             id="age"
                             name="age"
-                            value={newPlayer.age}
-                            onChange={handleInputChange}
+                            value={age}
+                            onChange={(e) => setAge(e.target.value)}
                             className="min-w-min px-3 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:border-yellow-400"
                             required
                         />
@@ -176,21 +159,26 @@ const CreatePlayer = () => {
                 </form>
             </div>
 
-            <div className="p-5 w-full relative min-h-screen">
-                <div className="absolute inset-0 w-full h-full bg-cover bg-center filter blur-sm"
+            <div className="p-5 w-full relative min-h-[80vh] md:min-h-0">
+                <div className="absolute inset-0 w-full h-full bg-cover bg-center filter opacity-80"
                     style={{ backgroundImage: `url(${imageFolderPath}field.jpg)` }}>
                 </div>
                 <div className={`${players.length > 0 ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4' : 'block'}`}>
                     {players.length > 0 ? (
-                        players.map((player, idx) => (
-                            <div key={idx} className="relative">
-                                <MyPlayerList player={player} />
+                        players.map((player) => (
+                            <div key={player.id} className="relative">
+                                <MyPlayerList player={player} setPlayers={setPlayers} players={players} />
                             </div>
                         ))
                     ) : (
-                        <div className="text-center text-yellow-400 font-semibold tracking-widest uppercase">
-                            No players added yet...
-                        </div>
+                        <>
+                            <p className="text-center text-yellow-100 font-semibold tracking-widest uppercase absolute inset-7 flex justify-center items-center md:text-xl">
+                                No players added yet...
+                            </p>
+                            <p className="text-center text-yellow-100 font-semibold tracking-widest absolute inset-y-20 inset-x-1 md:inset-x-16 text-lg md:text-xl flex justify-center">
+                                Add your own new players and click the player name to set as captain for your team!
+                            </p>
+                        </>
                     )}
                 </div>
             </div>

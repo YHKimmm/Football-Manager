@@ -35,15 +35,25 @@ const createPlayer = async (event) => {
                 newPlayer.age,
             ],
         };
-        await pool.query(playerQuery);
-
-
+        console.log('create player-playerQuery', playerQuery);
+        const result = await pool.query(playerQuery);
+        const playerId = result.rows[0].id;
+        console.log('playerId', playerId);
         const response = {
             statusCode: 201,
             headers: {
                 'content-type': 'application/json',
             },
-            body: JSON.stringify({ message: 'ok' }),
+            body: JSON.stringify({
+                id: playerId,
+                user_uuid: userId,
+                team_id: newPlayer.team_id,
+                name: newPlayer.name,
+                position: newPlayer.position,
+                height: newPlayer.height,
+                weight: newPlayer.weight,
+                age: newPlayer.age,
+            }),
         };
 
         return response;
@@ -101,7 +111,7 @@ const getPlayers = async (event) => {
 };
 
 const getPlayer = async (event) => {
-    const playerId = event?.pathParameters?.playerId;
+    const playerId = event?.pathParameters?.id;
     console.log('playerId', playerId);
 
     try {
@@ -143,12 +153,12 @@ const updatePlayer = async (event) => {
     console.log('updated player', updatedPlayer);
     const userId = event.requestContext.authorizer.jwt.claims.sub;
 
-    const playerId = event?.pathParameters?.id;
-    console.log('playerId', playerId);
+    const id = event?.pathParameters?.id;
+    console.log('playerId changed', id);
 
     const playerQuery = {
         text: 'SELECT * FROM players WHERE id = $1',
-        values: [playerId],
+        values: [id],
     };
     const { rows } = await pool.query(playerQuery);
 
@@ -165,7 +175,7 @@ const updatePlayer = async (event) => {
                 updatedPlayer.age,
                 userId,
                 teamId,
-                playerId,
+                id,
             ],
         };
         await pool.query(playerQuery);
@@ -183,7 +193,7 @@ const updatePlayer = async (event) => {
                 age: updatedPlayer.age,
                 user_uuid: userId,
                 team_id: teamId,
-                id: playerId,
+                id: id,
             }),
         };
         console.log('response', response)
@@ -203,6 +213,43 @@ const updatePlayer = async (event) => {
         return response;
     }
 };
+
+const deletePlayer = async (event) => {
+    const playerId = event?.pathParameters?.id;
+    console.log('playerId', playerId);
+
+    try {
+        const playerQuery = {
+            text: 'DELETE FROM players WHERE id = $1',
+            values: [playerId],
+        };
+
+        await pool.query(playerQuery);
+
+        const response = {
+            statusCode: 200,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ player: { id: playerId } }),
+        };
+
+        return response;
+
+    } catch (err) {
+        console.log(err);
+        const response = {
+            statusCode: 500,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ message: 'error' }),
+        };
+
+        return response;
+    }
+};
+
 
 export const handler = async (event) => {
     if (!pool) {
@@ -225,6 +272,8 @@ export const handler = async (event) => {
             return await getPlayers(event);
         case 'PUT':
             return await updatePlayer(event);
+        case 'DELETE':
+            return await deletePlayer(event);
         default:
             return {
                 statusCode: 405,
