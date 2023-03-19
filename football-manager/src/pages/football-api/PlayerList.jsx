@@ -4,6 +4,7 @@ import PlayerInfo from "../../components/PlayerInfo";
 import DropDown from "../../components/DropDown";
 import TeamDetailModal from "../../components/modal/TeamDetailModal";
 import { GiSoccerKick } from 'react-icons/gi';
+import { setGlobalState, useGlobalState } from "../../utilities/global_state";
 
 const PlayerList = () => {
     const navigate = useNavigate();
@@ -18,11 +19,11 @@ const PlayerList = () => {
     const { id } = useParams();
 
     const seasons = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"];
-    const [selectedSeason, setSelectedSeason] = useState(seasons[0]);
+    const [defaultSeaon] = useGlobalState("defaultSeason");
 
     async function fetchPlayers() {
         const response = await fetch(
-            `https://api-football-v1.p.rapidapi.com/v3/players?team=${id}&season=${selectedSeason}`,
+            `https://api-football-v1.p.rapidapi.com/v3/players?team=${id}&season=${defaultSeaon}`,
             {
                 method: "GET",
                 headers: {
@@ -57,10 +58,10 @@ const PlayerList = () => {
     useEffect(() => {
         fetchPlayers();
         fetchTeam();
-    }, [id, selectedSeason]);
+    }, [id, defaultSeaon]);
 
     const handleSeasonChange = (e) => {
-        setSelectedSeason(e.target.value);
+        setGlobalState("defaultSeason", e.target.value);
     };
 
     const handleNumPlayers = () => {
@@ -98,7 +99,7 @@ const PlayerList = () => {
             <div className="flex justify-center mb-1">
                 <DropDown
                     seasons={seasons}
-                    selectedSeason={selectedSeason}
+                    selectedSeason={defaultSeaon}
                     handleSeasonChange={handleSeasonChange}
                 />
             </div>
@@ -124,13 +125,18 @@ const PlayerList = () => {
             <h3 className="text-xl font-bold mb-5">Players</h3>
             <Fragment>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {players.slice(0, numPlayers).map((player, index) => (
-                        <div
-                            key={player.player.id}
-                            className={`${player.statistics[0].games.rating > 7 ? 'bg-emerald-400' : 'bg-white'} rounded-lg shadow-md p-4 flex items-center space-x-4`}>
-                            <PlayerInfo player={player} index={index} />
-                        </div>
-                    ))}
+                    {players ? (
+                        players.slice(0, numPlayers).map((player, index) => (
+                            <div
+                                key={player.player.id}
+                                className={`${player.statistics[0].games.rating > 7 ? 'bg-emerald-400' : 'bg-white'} rounded-lg shadow-md p-4 flex items-center space-x-4`}>
+                                <PlayerInfo player={player} index={index} />
+                            </div>
+                        ))
+
+                    ) : (
+                        <div className="text-center">Loading...</div>
+                    )}
                 </div>
                 <div className="text-center">
                     {!allPlayersLoaded ? (

@@ -85,7 +85,10 @@ function GetTeamInfo() {
                     {captain && teamInfo.id == id ? (
                         <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Captain: <span className='text-gray-200 font-light'>{captain.name}</span></h4>
                     ) : (
-                        <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Captain: <span className='text-gray-200 font-light'>No Captain Assigned</span></h4>
+                        <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Captain:
+                            <span className='text-gray-200 font-light ml-1'>No Captain Assigned</span>
+                            <p className='text-gray-200 font-light text-sm'>* Create players and click the player's name to set as a captain!  *</p>
+                        </h4>
                     )}
                     <div className="bg-gray-600 rounded-lg shadow-md p-4">
                         <div className="flex items-center mb-2">
