@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import LeagueTeam from "../../components/LeagueTeam";
+import { useNavigate } from "react-router-dom";
+import LeagueTeam from "../../../components/LeagueTeam";
 
-const Ligue1 = () => {
+const PremierLeague = () => {
+    const navigate = useNavigate();
+
     const [teams, setTeams] = useState([]);
 
     async function fetchTeams() {
         const response = await fetch(
-            "https://api-football-v1.p.rapidapi.com/v3/teams?season=2022&league=61",
+            "https://api-football-v1.p.rapidapi.com/v3/teams?season=2022&league=39",
             {
                 method: "GET",
                 headers: {
@@ -26,8 +29,11 @@ const Ligue1 = () => {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-4 tracking-widest">
-                Ligue 1 Teams
+            <a onClick={() => navigate(-1)} className="cursor-pointer">
+                ← Back
+            </a>
+            <h1 className="text-3xl font-bold my-4 tracking-widest">
+                Premier League Teams
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {teams.map((team) => (
@@ -38,4 +44,4 @@ const Ligue1 = () => {
     );
 };
 
-export default Ligue1;
+export default PremierLeague;

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const LeagueTeam = ({ team }) => {
     return (
         <div className="px-4 text-center mb-2">
-            <div className="bg-white rounded-lg shadow-md p-4 md:min-h-[290px]">
+            <div className="bg-white rounded-lg shadow-xl hover:shadow-emerald-200 p-4 md:min-h-[290px]">
                 <Link to={`/teams/${team.team.id}`}>
                     <img
                         src={team.team.logo}

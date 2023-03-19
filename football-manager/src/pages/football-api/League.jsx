@@ -9,6 +9,7 @@ const League = () => {
     const [serieA, setSerieA] = useState([]);
     const [ligue1, setLigue1] = useState([]);
     const [bundesliga, setBundesliga] = useState([]);
+    const [eredivisie, setEredivisie] = useState([]);
 
     async function fetchLeague(country) {
         const response = await fetch(`https://api-football-v1.p.rapidapi.com/v3/leagues?country=${country}`,
@@ -30,13 +31,15 @@ const League = () => {
             fetchLeague("Spain"),
             fetchLeague("Italy"),
             fetchLeague("France"),
-            fetchLeague("Germany")
-        ]).then(([premierLeague, laLiga, serieA, ligue1, bundesliga]) => {
+            fetchLeague("Germany"),
+            fetchLeague("Netherlands")
+        ]).then(([premierLeague, laLiga, serieA, ligue1, bundesliga, eredivisie]) => {
             setPremierLeague(premierLeague);
             setLaLiga(laLiga);
             setSerieA(serieA);
             setLigue1(ligue1);
             setBundesliga(bundesliga);
+            setEredivisie(eredivisie);
         })
             .catch((error) => {
                 console.log(error);
@@ -105,6 +108,18 @@ const League = () => {
                             <h3 className="text-xl font-bold mb-2 text-gray-100 tracking-widest">{bundesliga.name}</h3>
                             <p className="text-lg text-gray-100">
                                 Discover the teams and players of the German Bundesliga.
+                            </p>
+                        </div>
+                    </Link>
+                </div>
+
+                <div className="w-full px-4 text-center my-4">
+                    <Link to='/eredivisie'>
+                        <div className="bg-transparent rounded-lg shadow-2xl p-4 hover:shadow-xl h-full">
+                            <img src={eredivisie.logo} alt={eredivisie.name} className="w-40 h-40 mx-auto mb-4 p-4 bg-orange-50 rounded-lg" />
+                            <h3 className="text-xl font-bold mb-2 text-gray-100 tracking-widest">{eredivisie.name}</h3>
+                            <p className="text-lg text-gray-100">
+                                Check out the teams and players of the Dutch Eredivisie.
                             </p>
                         </div>
                     </Link>

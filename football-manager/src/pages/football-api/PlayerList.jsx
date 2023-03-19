@@ -1,10 +1,15 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { useParams } from "react-router-dom";
-import PlayerInfo from "../components/PlayerInfo";
-import DropDown from "../components/DropDown";
-import TeamDetailModal from "../components/modal/TeamDetailModal";
+import { useParams, useNavigate } from "react-router-dom";
+import PlayerInfo from "../../components/PlayerInfo";
+import DropDown from "../../components/DropDown";
+import TeamDetailModal from "../../components/modal/TeamDetailModal";
+import { GiSoccerKick } from 'react-icons/gi';
+import { setGlobalState, useGlobalState } from "../../GlobalState";
 
 const PlayerList = () => {
+    const [defaultSeaon] = useGlobalState("defaultSeason");
+    const navigate = useNavigate();
+
     const [players, setPlayers] = useState([]);
     const [team, setTeam] = useState({});
     const [venue, setVenue] = useState({});
@@ -14,13 +19,11 @@ const PlayerList = () => {
 
     const { id } = useParams();
 
-    const seasons = ["2018", "2019", "2020", "2021", "2022"];
-
-    const [selectedSeason, setSelectedSeason] = useState(seasons[0]);
+    const seasons = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"];
 
     async function fetchPlayers() {
         const response = await fetch(
-            `https://api-football-v1.p.rapidapi.com/v3/players?team=${id}&season=${selectedSeason}`,
+            `https://api-football-v1.p.rapidapi.com/v3/players?team=${id}&season=${defaultSeaon}`,
             {
                 method: "GET",
                 headers: {
@@ -55,10 +58,10 @@ const PlayerList = () => {
     useEffect(() => {
         fetchPlayers();
         fetchTeam();
-    }, [id, selectedSeason]);
+    }, [id, defaultSeaon]);
 
     const handleSeasonChange = (e) => {
-        setSelectedSeason(e.target.value);
+        setGlobalState("defaultSeason", e.target.value);
     };
 
     const handleNumPlayers = () => {
@@ -73,6 +76,9 @@ const PlayerList = () => {
 
     return (
         <div className="container mx-auto p-5 mt-5">
+            <a onClick={() => navigate(-1)} className="cursor-pointer">
+                ← Back
+            </a>
             <img
                 src={team.logo}
                 alt=""
@@ -90,13 +96,32 @@ const PlayerList = () => {
             </button>
             {showModal ? <TeamDetailModal setShowModal={setShowModal} team={team} venue={venue} /> : null}
 
-            <div className="flex justify-center mb-5">
+            <div className="flex justify-center mb-1">
                 <DropDown
                     seasons={seasons}
-                    selectedSeason={selectedSeason}
+                    selectedSeason={defaultSeaon}
                     handleSeasonChange={handleSeasonChange}
                 />
             </div>
+
+            {/* current squad */}
+            <div className="flex justify-center mb-5 text-center">
+                <h3 className="text-lg md:text-xl font-bold mb-4 tracking-wider">
+                    Looking for Current Squad of {team.name}?
+                    <span className="flex justify-center mt-2 animate-pulse">
+                        <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </span>
+                    <span
+                        onClick={() => navigate(`/teams/${id}/current-squad`)}
+                        className="cursor-pointer flex items-center justify-center mt-5"
+                    >
+                        <GiSoccerKick size={32} className="animate-bounce" />
+                    </span>
+                </h3>
+            </div>
+
             <h3 className="text-xl font-bold mb-5">Players</h3>
             <Fragment>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -121,7 +146,7 @@ const PlayerList = () => {
                     )}
                 </div>
             </Fragment>
-        </div >
+        </div>
     );
 };
 
