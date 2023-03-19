@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { getAccessToken } from "../../utilities/cognito";
 import Spinner from "../Spinner";
 
@@ -16,17 +15,15 @@ const ProfilePictureUploader = ({ setProfilePicUrl }) => {
 
         try {
             // GET request: presigned URL
-            const response = await axios({
-                method: "GET",
-                url: API_ENDPOINT,
-            });
-            console.log("Response: ", response);
+            const response = await fetch(API_ENDPOINT);
+            const responseData = await response.json();
+            console.log("Response: ", responseData);
 
             // PUT request: upload file to S3
-            const result = await fetch(response.data.uploadURL, {
+            const result = await fetch(responseData.uploadURL, {
                 method: "PUT",
                 headers: {
-                    ContentType: 'image/*',
+                    'Content-Type': 'image/*',
                 },
                 body: file,
             });
@@ -35,19 +32,20 @@ const ProfilePictureUploader = ({ setProfilePicUrl }) => {
             const token = await getAccessToken();
 
             // Update profile_picture_url in CockroachDB
-            const imageUrl = response.data.uploadURL;
-            const updateResult = await axios({
+            const imageUrl = responseData.uploadURL;
+            const updateResult = await fetch(`https://gmwdmyyeri.execute-api.ca-central-1.amazonaws.com/default/user`, {
                 method: "PUT",
                 headers: {
                     Authorization: token,
+                    'Content-Type': 'application/json',
                 },
-                url: `https://gmwdmyyeri.execute-api.ca-central-1.amazonaws.com/default/user`,
-                data: {
+                body: JSON.stringify({
                     profile_picture_url: imageUrl.split("?")[0],
-                },
+                }),
             });
+            const updateData = await updateResult.json();
             console.log("imageUrl: ", imageUrl.split("?")[0]);
-            console.log("Update result: ", updateResult);
+            console.log("Update result: ", updateData);
 
             // Update profile_pic_url in state
             setProfilePicUrl(imageUrl);

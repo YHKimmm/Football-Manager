@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { getAccessToken } from "../../utilities/cognito";
 import Spinner from "../Spinner";
 
 const TeamLogoUploader = ({ setLogoUrl, id }) => {
     const [isLoading, setIsLoading] = useState(false);
-
     const API_ENDPOINT = "https://4x0amn0nmi.execute-api.ca-central-1.amazonaws.com/default/image";
 
     const handleChange = async (e) => {
@@ -15,17 +13,15 @@ const TeamLogoUploader = ({ setLogoUrl, id }) => {
 
         try {
             // GET request: presigned URL
-            const response = await axios({
-                method: "GET",
-                url: API_ENDPOINT,
-            });
-            console.log("Response: ", response);
+            const response = await fetch(API_ENDPOINT);
+            const presignedUrl = await response.json();
+            console.log("Response: ", presignedUrl);
 
             // PUT request: upload file to S3
-            const result = await fetch(response.data.uploadURL, {
+            const result = await fetch(presignedUrl.uploadURL, {
                 method: "PUT",
                 headers: {
-                    ContentType: 'image/*',
+                    "Content-Type": "image/*",
                 },
                 body: file,
             });
@@ -34,26 +30,23 @@ const TeamLogoUploader = ({ setLogoUrl, id }) => {
             const token = await getAccessToken();
 
             // Update profile_picture_url in CockroachDB
-            const imageUrl = response.data.uploadURL;
-            const updateResult = await axios({
+            const imageUrl = presignedUrl.uploadURL;
+            const updateResult = await fetch(`https://3x0lkvn986.execute-api.ca-central-1.amazonaws.com/default/team/${id}`, {
                 method: "PUT",
                 headers: {
-                    Authorization: token,
+                    "Authorization": token,
+                    "Content-Type": "application/json"
                 },
-                url: `https://3x0lkvn986.execute-api.ca-central-1.amazonaws.com/default/team/${id}`,
-                data: {
+                body: JSON.stringify({
                     logo_url: imageUrl.split("?")[0],
-                },
+                })
             });
             console.log("imageUrl: ", imageUrl.split("?")[0]);
             console.log("Update result: ", updateResult);
 
-
-
             setLogoUrl(imageUrl);
 
             setIsLoading(false);
-
 
         } catch (error) {
             console.error(error);
