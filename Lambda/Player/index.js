@@ -47,7 +47,7 @@ const createPlayer = async (event) => {
             body: JSON.stringify({
                 id: playerId,
                 user_uuid: userId,
-                team_id: newPlayer.team_id,
+                team_id: teamId,
                 name: newPlayer.name,
                 position: newPlayer.position,
                 height: newPlayer.height,
