@@ -4,10 +4,8 @@ import PlayerInfo from "../../components/PlayerInfo";
 import DropDown from "../../components/DropDown";
 import TeamDetailModal from "../../components/modal/TeamDetailModal";
 import { GiSoccerKick } from 'react-icons/gi';
-import { setGlobalState, useGlobalState } from "../../GlobalState";
 
 const PlayerList = () => {
-    const [defaultSeaon] = useGlobalState("defaultSeason");
     const navigate = useNavigate();
 
     const [players, setPlayers] = useState([]);
@@ -20,10 +18,11 @@ const PlayerList = () => {
     const { id } = useParams();
 
     const seasons = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"];
+    const [selectedSeason, setSelectedSeason] = useState(seasons[0]);
 
     async function fetchPlayers() {
         const response = await fetch(
-            `https://api-football-v1.p.rapidapi.com/v3/players?team=${id}&season=${defaultSeaon}`,
+            `https://api-football-v1.p.rapidapi.com/v3/players?team=${id}&season=${selectedSeason}`,
             {
                 method: "GET",
                 headers: {
@@ -58,10 +57,10 @@ const PlayerList = () => {
     useEffect(() => {
         fetchPlayers();
         fetchTeam();
-    }, [id, defaultSeaon]);
+    }, [id, selectedSeason]);
 
     const handleSeasonChange = (e) => {
-        setGlobalState("defaultSeason", e.target.value);
+        setSelectedSeason(e.target.value);
     };
 
     const handleNumPlayers = () => {
@@ -99,7 +98,7 @@ const PlayerList = () => {
             <div className="flex justify-center mb-1">
                 <DropDown
                     seasons={seasons}
-                    selectedSeason={defaultSeaon}
+                    selectedSeason={selectedSeason}
                     handleSeasonChange={handleSeasonChange}
                 />
             </div>
