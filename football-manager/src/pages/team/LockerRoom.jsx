@@ -31,15 +31,26 @@ const LockerRoom = () => {
         fetchTeam();
     }, []);
 
+    console.log("coachInfo", coachInfo);
+
     return (
         <div className="bg-gray-700 p-3">
             <div className="md:px-10 px-3 max-w-screen-2xl mx-auto flex justify-between items-center sm:ml-15">
                 <div>
-                    <h1 className="text-2xl md:text-4xl tracking-wider font-semibold text-yellow-400 md:mb-4 min-w-[150px]">{user.username.toUpperCase()}'s Locker Room</h1>
+                    <h1 className="text-2xl md:text-4xl tracking-wider font-semibold text-yellow-400 md:mb-4 min-w-[150px]">{user?.username?.toUpperCase()}'s Locker Room</h1>
+                    {coachInfo === undefined || !coachInfo.fullname && (
+                        <div className="flex items-center my-3">
+                            <p className="text-base md:mb-6 font-medium md:text-xl text-gray-300">Seems like you haven't set up your profile, go to set your profile up
+                                <Link to='/profile' className="font-bold">
+                                    {" "}here!
+                                </Link>
+                            </p>
+                        </div>
+                    )}
                     <p className="text-gray-500 text-base md:text-xl font-bold">Head Coach</p>
-                    <p className="text-2xl md:mb-6 font-bold md:text-3xl text-yellow-400">{coachInfo.fullname}</p>
+                    <p className="text-2xl md:mb-6 font-bold md:text-3xl text-yellow-400">{coachInfo?.fullname}</p>
                     <p className="text-gray-500 text-base md:text-xl font-bold">Bio</p>
-                    <p className="text-xl mb-6 font-bold md:text-2xl text-yellow-400">{coachInfo.bio}</p>
+                    <p className="text-xl mb-6 font-bold md:text-2xl text-yellow-400">{coachInfo?.bio}</p>
                 </div>
                 <div className="max-w-lg ml-5">
                     <img

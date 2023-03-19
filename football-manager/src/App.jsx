@@ -1,5 +1,19 @@
 import { Routes, Route } from "react-router-dom";
+
+// Home
 import Home from "./pages/Home";
+
+// Header
+import Header from "./components/Header";
+
+// About
+import About from "./pages/About";
+
+// Terms and Condition
+import TermsAndCondition from "./pages/TermsAndCondition";
+
+// League Routes
+import League from "./pages/football-api/League";
 import PremierLeague from "./pages/football-api/leagues/PremierLeague";
 import LaLiga from "./pages/football-api/leagues/LaLiga";
 import SerieA from "./pages/football-api/leagues/SerieA";
@@ -8,19 +22,23 @@ import Bundesliga from "./pages/football-api/leagues/Bundesliga";
 import Eredivisie from "./pages/football-api/leagues/Eredivisie";
 import PlayerList from "./pages/football-api/PlayerList";
 import TeamSquad from "./pages/football-api/TeamSquad";
-import Header from "./components/Header";
-import About from "./pages/About";
+
+// Auth Routes
 import SignUp from "./pages/auth/SignUp";
 import ConfirmEmail from "./pages/auth/ConfirmEmail";
 import SignIn from "./pages/auth/SignIn";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/profile/Profile";
+
+// Team Routes
 import CreateTeam from "./pages/team/CreateTeam";
 import LockerRoom from "./pages/team/LockerRoom";
 import GetTeamInfo from "./pages/team/GetTeamInfo";
+
+// Player Routes
 import CreatePlayer from "./pages/player/CreatePlayer";
-import League from "./pages/football-api/League";
+
 import { useSelector } from "react-redux";
 
 function App() {
@@ -32,6 +50,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/terms-and-condition" element={<TermsAndCondition />} />
         <Route path="/league" element={<League />} />
 
         {/* League Routes */}

@@ -38,6 +38,7 @@ const CreatePlayer = () => {
                     }),
                 })
             const data = await response.json();
+            console.log('data: ', data);
             setPlayers([...players, { id: data.id, team_id: data.team_id, user_uuid: data.user_uuid, name, position, height, weight, age }]);
             console.log('data: ', data);
         } catch (error) {

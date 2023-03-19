@@ -3,19 +3,18 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getAccessToken } from '../../utilities/cognito';
 import UpdateTeamInfo from './UpdateTeamInfo';
 import DeleteModal from '../../components/modal/DeleteModal';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteCaptain } from '../../reducer/captainSlice';
 
 const imageFolderPath = import.meta.env.BASE_URL + "";
 
 function GetTeamInfo() {
     const navigate = useNavigate();
     const { id } = useParams();
+    const dispatch = useDispatch();
 
     const captain = useSelector((state) => state.captain.captains[id]);
     console.log('captain', captain);
-
-    const captainTeam = useSelector((state) => state.captain.captains);
-    const teamId = Object.keys(captainTeam).find(key => key === id)
 
     const [teamInfo, setTeamInfo] = useState({});
     const [updatedTeamInfo, setUpdatedTeamInfo] = useState({});
@@ -65,6 +64,7 @@ function GetTeamInfo() {
         const data = await response.json();
         console.log('data', data);
         navigate('/locker-room');
+        dispatch(deleteCaptain(id))
 
         setShowModal(false);
     };
@@ -82,7 +82,7 @@ function GetTeamInfo() {
                 <div className="p-5">
                     <h1 className="text-2xl font-semibold text-yellow-400 mb-4">{updatedTeamInfo.name}'s Team Information</h1>
                     <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Head Coach: <span className='text-gray-200 font-light'>{coachInfo?.fullname}</span></h4>
-                    {captain && teamId == id ? (
+                    {captain && teamInfo.id == id ? (
                         <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Captain: <span className='text-gray-200 font-light'>{captain.name}</span></h4>
                     ) : (
                         <h4 className="text-lg font-semibold text-yellow-400 mb-4 mr-1">Captain: <span className='text-gray-200 font-light'>No Captain Assigned</span></h4>

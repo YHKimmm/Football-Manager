@@ -45,7 +45,7 @@ const Profile = () => {
 
     return (
         <div className="relative flex flex-col items-center min-h-screen">
-            <div className="absolute inset-0 z-[-1] w-full h-full bg-cover bg-center filter"
+            <div className="absolute inset-0 z-[-1] w-full h-full bg-cover bg-center filter brightness-50"
                 style={{ backgroundImage: `url(${imageFolderPath}football.jpg)` }}></div>
             <div className="flex flex-col items-center justify-center h-full p-3">
                 <h1 className="text-2xl text-neutral-100 mb-4 p-3 tracking-widest">
@@ -56,16 +56,28 @@ const Profile = () => {
                         Go Locker Room
                     </button>
                 </Link>
-                <img
-                    className="w-32 h-32 rounded-full object-cover mb-4"
-                    src={updatedUser.profile_picture_url}
-                    alt="Profile Picture"
-                />
-                <h2 className={`${isEditable ? 'text-gray-200' : 'text-emerald-300'} text-2xl font-extrabold mb-2`}>{updatedUser.fullname}</h2>
-                <p className={`${isEditable ? 'text-gray-300 ' : 'text-emerald-700'} text-base font-semibold mb-2`}>Head Coach</p>
-                <p className={`${isEditable ? 'text-gray-300' : 'text-emerald-800'} text-base mb-6 text-center`}>
-                    {updatedUser.bio}
-                </p>
+                {updatedUser.profile_picture_url ? (
+                    <img
+                        className="w-32 h-32 rounded-full object-cover mb-4"
+                        src={updatedUser?.profile_picture_url}
+                        alt="Profile Picture"
+                    />
+                ) : (
+                    <h2 className="text-2xl font-extrabold mb-2 text-emerald-200">No Profile Picture Available</h2>
+                )}
+                {updatedUser.fullname ? (
+                    <h2 className={`${isEditable ? 'text-gray-200' : 'text-emerald-300'} text-2xl font-extrabold mb-2`}>{updatedUser?.fullname}</h2>
+                ) : (
+                    <h2 className="text-base font-extrabold mb-2 text-emerald-400">No Name Available</h2>
+                )}
+                <p className={`${isEditable ? 'text-gray-300 ' : 'text-emerald-500'} text-base font-semibold mb-2`}>Head Coach</p>
+                {updatedUser.bio ? (
+                    <p className={`${isEditable ? 'text-gray-300' : 'text-emerald-400'} text-base mb-6 text-center`}>
+                        {updatedUser?.bio}
+                    </p>
+                ) : (
+                    <p className="text-base mb-6 text-center text-emerald-400">No Bio Available</p>
+                )}
                 <button
                     className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded"
                     onClick={() => setIsEditable(!isEditable)}

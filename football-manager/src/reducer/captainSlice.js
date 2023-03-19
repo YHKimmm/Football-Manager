@@ -9,8 +9,11 @@ export const captainSlice = createSlice({
     reducers: {
         setCaptain: (state, action) => {
             const { teamId, ...captain } = action.payload;
+            console.log('captain', captain);
+            console.log('teamId', teamId);
             // create new object with key of teamId and value of captain
             const newCaptains = { ...state.captains, [teamId]: captain };
+            console.log('newCaptains', newCaptains);
             localStorage.setItem('captains', JSON.stringify(newCaptains));
             return { ...state, captains: newCaptains, isCaptain: true };
         },

@@ -152,12 +152,12 @@ const SignUp = () => {
                         >
                             <p className="flex md:text-base items-center text-sm font-normal leading-normal text-gray-700 antialiased">
                                 I agree the
-                                <a
+                                <Link
                                     className="font-medium transition-colors hover:text-green-500"
-                                    href="#"
+                                    to="/terms-and-condition"
                                 >
                                     &nbsp;Terms and Conditions
-                                </a>
+                                </Link>
                             </p>
                         </label>
                     </div>
