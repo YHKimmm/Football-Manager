@@ -36,4 +36,4 @@ https://master.d13w4989r7v7a9.amplifyapp.com/
 
 ## Preview
 
-<img src="/public/preview.png" alt="Alt text" title="Optional title">
+![chrome_E5OofbRm30](https://im4.ezgif.com/tmp/ezgif-4-2015613c31.png)
