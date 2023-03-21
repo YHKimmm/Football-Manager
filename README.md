@@ -1,8 +1,8 @@
-![header](https://capsule-render.vercel.app/api?type=wave&color=auto&height=200&section=header&text=Football%20Manager&fontSize=70&animation=twinkling)
-
 ## Football Manager
 
 Football Manager is an app designed for avid football fans who want to manage their own league, team, player, and position. With our app, users can easily create their own team, and manage their player. They can also view major leagues around the world and explore each team and player based on the selected season.
+
+![Football Manager](https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=881&q=80)
 
 ## Tech Stack
 
@@ -10,10 +10,13 @@ Football Manager is an app designed for avid football fans who want to manage th
 
 ## Features
 
+- Create team and manage players
+- View player information and set captain
 - User authentication and authorization using AWS Cognito
 - RESTful API Gateway to communicate with AWS Lambda functions
 - CockroachDB for data storage
 - User-friendly interface built using React
+- Deployed the web application using Amplify
 
 ## Getting started
 
