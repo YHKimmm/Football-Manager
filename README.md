@@ -7,7 +7,6 @@ Football Manager is an app designed for avid football fans who want to manage th
 ## Tech Stack
 
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white"/> <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazon-aws&logoColor=white"/>
-React.js & AWS
 
 ## Features
 
