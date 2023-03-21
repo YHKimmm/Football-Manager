@@ -35,3 +35,5 @@ AWS Amplify for deployment and hosting
 https://master.d13w4989r7v7a9.amplifyapp.com/
 
 ## Preview
+
+<img src="/public/preview.png" alt="Alt text" title="Optional title">
