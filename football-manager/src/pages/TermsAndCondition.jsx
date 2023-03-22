@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const TermsAndCondition = () => {
     const navigate = useNavigate();
     return (
-        <div className="bg-gradient-to-br from-green-200 to-blue-300">
+        <div className="bg-gradient-to-br from-green-200 to-blue-300 p-3">
             <div className="mx-auto max-w-4xl p-4">
                 <button
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-neutral-200 hover:bg-neutral-300 focus:outline-none focus:ring focus:border-green-400"

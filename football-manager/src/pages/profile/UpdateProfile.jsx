@@ -37,7 +37,7 @@ const UpdateProfile = ({ user, handleUpdateUser }) => {
             <form className="w-full max-w-md" onSubmit={submitHandler}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-3">
-                        <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="full-name">
+                        <label className="block uppercase tracking-wide text-gray-200 text-xs font-bold mb-2" htmlFor="full-name">
                             Full Name
                         </label>
                         <input
@@ -52,7 +52,7 @@ const UpdateProfile = ({ user, handleUpdateUser }) => {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-3">
-                        <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="bio">
+                        <label className="block uppercase tracking-wide text-gray-200 text-xs font-bold mb-2" htmlFor="bio">
                             Bio
                         </label>
                         <textarea className="appearance-none block w-full bg-gray-100 text-gray-900 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -65,7 +65,7 @@ const UpdateProfile = ({ user, handleUpdateUser }) => {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-3">
-                        <label className="block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2" htmlFor="profile-picture">
+                        <label className="block uppercase tracking-wide text-gray-200 text-xs font-bold mb-2" htmlFor="profile-picture">
                             Profile Picture URL
                         </label>
                         <div>
