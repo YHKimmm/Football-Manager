@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getAccessToken } from "../../utilities/cognito";
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
@@ -12,6 +12,8 @@ const UpdateTeamInfo = ({ teamInfo, handleUpdateUser }) => {
     const [foundedDate, setFoundedDate] = useState(teamInfo.founded_date || "");
     const [logoUrl, setLogoUrl] = useState(teamInfo.logo_url || "");
     const [name, setName] = useState(teamInfo.name || "");
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
     const { id } = useParams();
 
     // country selector
@@ -44,12 +46,20 @@ const UpdateTeamInfo = ({ teamInfo, handleUpdateUser }) => {
             );
             const data = await response.json();
             handleUpdateUser(data);
+            setShowSuccessMessage(true);
             console.log(data);
 
         } catch (err) {
             console.error(err);
         }
     };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowSuccessMessage(false);
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, [showSuccessMessage]);
 
     return (
         <>
@@ -96,6 +106,13 @@ const UpdateTeamInfo = ({ teamInfo, handleUpdateUser }) => {
                             </div>
                         </div>
                     </form>
+                    {showSuccessMessage && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                            <div className="bg-emerald-500 text-white font-bold rounded-lg px-4 py-3 text-center tracking-wider md:text-xl md:p-6">
+                                Team information updated successfully!
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </>
