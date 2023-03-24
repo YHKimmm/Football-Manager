@@ -38,4 +38,4 @@ https://master.d13w4989r7v7a9.amplifyapp.com/
 
 ## Preview
 
-![chrome_E5OofbRm30](https://im4.ezgif.com/tmp/ezgif-4-2015613c31.png)
+![football-manager](https://user-images.githubusercontent.com/102700164/227444462-63429391-9605-4506-b67d-eee71158b041.png)
