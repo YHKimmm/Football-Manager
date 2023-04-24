@@ -8,7 +8,7 @@ Football Manager is an app designed for avid football fans who want to manage th
 
 ## Application Architectrue
 
-The application is partially based on AWS architecture including AWS Lambda, Amazon API Gateway, Amazon Cognito, and AWS Amplify.
+The application's architecture is based on various AWS services, such as AWS Lambda, Amazon API Gateway, Amazon Cognito, and AWS Amplify.
 ![aws architectrue](https://user-images.githubusercontent.com/102700164/233929891-65c9ae2c-3540-4641-b87c-5f6fac7c06eb.png)
 
 
