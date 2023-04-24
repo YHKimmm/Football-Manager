@@ -6,6 +6,12 @@ Football Manager is an app designed for avid football fans who want to manage th
 
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white"/> <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazon-aws&logoColor=white"/> <img src="https://img.shields.io/badge/CockroachDB-6933FF?style=flat-square&logo=cockroachdb&logoColor=white"/>
 
+## Application Architectrue
+
+The application is partially based on AWS architecture including AWS Lambda, Amazon API Gateway, Amazon Cognito, and AWS Amplify.
+![aws architectrue](https://user-images.githubusercontent.com/102700164/233929891-65c9ae2c-3540-4641-b87c-5f6fac7c06eb.png)
+
+
 ## Features
 
 - Create team and manage players
